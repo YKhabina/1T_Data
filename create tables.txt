@@ -1,0 +1,48 @@
+CREATE TABLE IF NOT EXISTS storage(
+    id SERIAL PRIMARY KEY,
+    FOREIGN KEY id_reader INT REFERENCES Readers(id) ON DELETE SET NULL,
+    FOREIGN KEY id_book INT REFERENCES Books(id) ON DELETE SET NULL,
+    Start_date TIMESTAMP
+    End_date TIMESTAMP CHECK(End_date>Start_date)
+    Fact_date TIMESTAMP CHECK(Fact_date>Start_date)
+    FOREIGN KEY Resp_person INT REFERENCES Staff(id) ON DELETE SET NULL     
+);
+
+
+CREATE TABLE IF NOT EXISTS readers(
+    id SERIAL PRIMARY KEY,
+    Surname CHARACTER VARYING(20),
+    Name CHARACTER VARYING(20),
+    Sec_name CHARACTER VARYING(20),
+    Address CHARACTER VARYING(50),
+    Phone CHARACTER VARYING(12)      
+);
+
+CREATE TABLE IF NOT EXISTS books(
+    id SERIAL PRIMARY KEY,
+    Name CHARACTER VARYING(100),
+    FOREIGN KEY Publisher INT REFERENCES Publisher(id), 
+    Date_pub DATE,
+    Volume INT, 
+    Price INT,
+    Quantity INT    
+);
+
+CREATE TABLE IF NOT EXISTS author_books(
+    id SERIAL PRIMARY KEY,
+    FOREIGN KEY book_id INT REFERENCES books(id),
+    FOREIGN KEY author_id INT REFERENCES author(id)   
+);
+
+CREATE TABLE IF NOT EXISTS author(
+    id SERIAL PRIMARY KEY,
+    Surname CHARACTER VARYING(20),
+    Name CHARACTER VARYING(20),
+    Sec_name CHARACTER VARYING(20)    
+);
+CREATE TABLE IF NOT EXISTS staff(
+    id SERIAL PRIMARY KEY,
+    Surname CHARACTER VARYING(20)
+    Name CHARACTER VARYING(20)
+    Sec_name CHARACTER VARYING(20)   
+);
