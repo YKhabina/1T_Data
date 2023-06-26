@@ -1,0 +1,28 @@
+1.Напишите sql запрос, который определяет, терял ли определенный читатель книги.
+
+select r.surname, r.first_name,
+        case when s.id_reader in (select id_lostreader from lost_books) then 'Читатель терял книги'
+ else 'Читатель не терял книг'
+ end
+ from stor_op s
+inner join readers r on r.id_reader =s.id_reader 
+
+2. При потере книг количество доступных книг фонда меняется. Напишите sql запрос на обновление соответствующей информации.
+
+UPDATE books SET books.quantity = books.quantity - 1 
+  WHERE books.id_book in (select id_lostbook from lost_books);
+
+3. Определить сумму потерянных книг по каждому кварталу в течение года
+
+select sum(b.price), extract (QUARTER from l.lostdate) as kvartal
+from lost_books l
+inner join books b on l.id_lostbook =b.id_book 
+group by kvartal
+
+Дополнительная информация к заданию:
+
+Книга считается на руках, если не указана фактическая дата возврата книги.
+
+Должником является читатель, у которого нет фактической даты возврата.
+
+Книга считается прочитанной, если она была взята и сдана.
