@@ -1,0 +1,83 @@
+1)Определить, сколько книг прочитал каждый читатель в текущем году. Вывести рейтинг читателей по убыванию.
+// есть дата возвращения книги , значит книга прочитана. нужно посчитать число таких строк, сгруппировать по читателю, соединить с таблицей ридерс
+
+SELECT s.id_reader, r.surname,r.first_name, count (s.id_reader) as rating
+FROM stor_op s
+inner JOIN readers r  on s.id_reader=r.id_reader
+WHERE s.fact_date>'2023-01-01'
+group by s.id_reader, r.surname,r.first_name
+order by rating desc 
+
+2)Определить, сколько книг у читателей на руках на текущую дату.
+   //посчитать число книг, у которых нет даты возврата
+
+SELECT count(id_book)as books_on_hands
+FROM stor_op
+where fact_date is null
+
+3)Определить читателей, у которых на руках определенная книга.
+// вывести имя читателя, у которых нет даты возврата. сджоинить с таблицей ридерс
+SELECT r.surname , r.first_name, b.book_name
+from stor_op s
+inner join readers r  on s.id_reader=r.id_reader
+inner join books b on s.id_book =b.id_book
+WHERE s.fact_date is null and b.book_name ='На дне'
+
+4)Определите, какие книги на руках читателей.
+//вывести ид книги, у которых нет даты возврата.соединить с таблицей букс
+SELECT r.surname , r.first_name, b.book_name
+from stor_op s
+inner join readers r  on s.id_reader=r.id_reader
+inner join books b on s.id_book =b.id_book
+WHERE s.fact_date is null
+
+5)Вывести количество должников на текущую дату. 
+//посчитать число строк, у которых фактическая дата пустая
+
+SELECT count(id_reader) 
+from stor_op s
+WHERE s.fact_date is null 
+
+6)Книги какого издательства были самыми востребованными у читателей? Отсортируйте издательства по убыванию востребованности книг.
+//выбрать книги, соединить с издательствами, посчитать число строк, сгруппировать по издательству, отсортирвоать по убыванию.
+SELECT count (b.id_publisher) as pub_rate,p.pub_name
+from stor_op s
+inner join books b on s.id_book=b.id_book
+inner join publisher p on b.id_publisher =p.id_pub 
+group by p.pub_name 
+order by pub_rate desc
+
+
+7)Определить самого издаваемого автора.
+//(Автор с самым большим числом книг)
+из таблицы книги соеднить с авторами, посчитать число строк, сгруппировать по автору, взять мах
+
+SELECT count (a.surname) as auth_rate, a.surname, a.first_name , a.sec_name  
+from books b
+inner join author_books ab on b.id_book = ab.id_auth_book
+inner join author a  on ab.author_id=a.id_auth  
+group by a.surname,a.first_name , a.sec_name
+order by auth_rate desc 
+limit 1
+
+
+8)Определить среднее количество прочитанных страниц читателем за день.
+//Вычислить кол-во дней чтения (разница между факт и старт), соединить с книгой, взять ее объем, поделить кол-во страниц на дни, сгруппировать по читателю.
+
+select r.surname,sum(b.volume/rday) as av_read_speed
+from readers r
+inner join (select id_reader,id_book , date(fact_date)-date(start_date) as rday
+			from stor_op s
+			where fact_date is not null) rq on r.id_reader=rq.id_reader
+inner join books b on rq.id_book=b.id_book 
+group by r.surname 
+order by av_read_speed desc
+
+
+Дополнительная информация к заданию:
+
+Книга считается на руках, если не указана фактическая дата возврата книги.
+
+Должником является читатель, у которого нет фактической даты возврата.
+
+Книга считается прочитанной, если она была взята и сдана.
