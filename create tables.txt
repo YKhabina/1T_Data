@@ -1,48 +1,73 @@
-CREATE TABLE IF NOT EXISTS storage(
-    id SERIAL PRIMARY KEY,
-    FOREIGN KEY id_reader INT REFERENCES Readers(id) ON DELETE SET NULL,
-    FOREIGN KEY id_book INT REFERENCES Books(id) ON DELETE SET NULL,
-    Start_date TIMESTAMP
-    End_date TIMESTAMP CHECK(End_date>Start_date)
-    Fact_date TIMESTAMP CHECK(Fact_date>Start_date)
-    FOREIGN KEY Resp_person INT REFERENCES Staff(id) ON DELETE SET NULL     
+1) Таблица с персоналом:
+    CREATE TABLE IF NOT EXISTS staff(
+    id_staff SERIAL PRIMARY KEY,
+    surname CHARACTER VARYING(20),
+    first_name CHARACTER VARYING(20),
+    sec_name CHARACTER VARYING(20)   
+);
+
+2) Таблица с авторами:
+    CREATE TABLE IF NOT EXISTS author(
+    id_auth SERIAL PRIMARY KEY,
+    surname CHARACTER VARYING(20),
+    first_name CHARACTER VARYING(20),
+    sec_name CHARACTER VARYING(20)    
+);
+
+3)таблица с читателями:
+
+    CREATE TABLE IF NOT EXISTS readers(
+    id_reader SERIAL PRIMARY KEY,
+    surname CHARACTER VARYING(20),
+    first_name CHARACTER VARYING(20),
+    sec_name CHARACTER VARYING(20),
+    address CHARACTER VARYING(50),
+    phone CHARACTER VARYING(12)      
+);
+
+4) таблица с издателями:
+
+    CREATE TABLE IF NOT EXISTS publisher(
+    id_pub SERIAL PRIMARY KEY,
+    pub_name CHARACTER VARYING(100),
+    city CHARACTER VARYING(100)      
 );
 
 
-CREATE TABLE IF NOT EXISTS readers(
-    id SERIAL PRIMARY KEY,
-    Surname CHARACTER VARYING(20),
-    Name CHARACTER VARYING(20),
-    Sec_name CHARACTER VARYING(20),
-    Address CHARACTER VARYING(50),
-    Phone CHARACTER VARYING(12)      
+5) таблица с авторами и книгами:
+
+    CREATE TABLE IF NOT EXISTS author_books(
+    id_auth_book SERIAL PRIMARY KEY,
+    author_id INT,
+    FOREIGN KEY author_id REFERENCES author(id_auth)   
 );
 
-CREATE TABLE IF NOT EXISTS books(
-    id SERIAL PRIMARY KEY,
-    Name CHARACTER VARYING(100),
-    FOREIGN KEY Publisher INT REFERENCES Publisher(id), 
-    Date_pub DATE,
-    Volume INT, 
-    Price INT,
-    Quantity INT    
+6) таблица с книгами:
+    CREATE TABLE IF NOT EXISTS books(
+    id_book SERIAL PRIMARY KEY,
+    FOREIGN KEY id_book REFERENCES author_books(id_auth_book),
+    book_name CHARACTER VARYING(100),
+    id_publisher INT,
+    FOREIGN KEY publisher REFERENCES publisher(id),
+    date_pub DATE,
+    volume INT, 
+    price INT,
+    quantity INT    
 );
 
-CREATE TABLE IF NOT EXISTS author_books(
-    id SERIAL PRIMARY KEY,
-    FOREIGN KEY book_id INT REFERENCES books(id),
-    FOREIGN KEY author_id INT REFERENCES author(id)   
+7) таблица фактов (таблица с операциями):
+    
+    CREATE TABLE IF NOT EXISTS stor_op(
+    id_op SERIAL PRIMARY KEY,
+    id_reader INT,
+    FOREIGN KEY id_reader REFERENCES readers(id_reader) ON DELETE SET NULL,
+    id_book INT,
+    FOREIGN KEY id_book REFERENCES books(id_book) ON DELETE SET NULL,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP CHECK(end_date>start_date),
+    fact_date TIMESTAMP CHECK(fact_date>start_date),
+    FOREIGN KEY Resp_person INT REFERENCES staff(id_staff) ON DELETE SET NULL     
 );
 
-CREATE TABLE IF NOT EXISTS author(
-    id SERIAL PRIMARY KEY,
-    Surname CHARACTER VARYING(20),
-    Name CHARACTER VARYING(20),
-    Sec_name CHARACTER VARYING(20)    
-);
-CREATE TABLE IF NOT EXISTS staff(
-    id SERIAL PRIMARY KEY,
-    Surname CHARACTER VARYING(20)
-    Name CHARACTER VARYING(20)
-    Sec_name CHARACTER VARYING(20)   
-);
+
+
