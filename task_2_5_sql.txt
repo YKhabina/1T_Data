@@ -1,0 +1,36 @@
+select shop_name, product_name, 
+       sales_cnt as sales_fact,
+       plan_cnt as sales_plan, 
+       (sales_cnt::real/plan_cnt::real) as fact_plan_plan,
+       sales_cnt*price as income_fact,
+       plan_cnt*price as income_plan,
+       ((sales_cnt*price)::real)/((plan_cnt*price)::real) as fact_plan_income
+from shop_mvideo mvd
+join product p on p.id_product =mvd.id_product 
+join shops s on s.id_shop =mvd.id_shop 
+join plan_product pp on pp.id_shop=mvd.id_shop and pp.id_product =mvd.id_product
+union
+select shop_name, product_name, 
+       sales_cnt as sales_fact,
+       plan_cnt as sales_plan, 
+       (sales_cnt::real/plan_cnt::real) as fact_plan_plan,
+       sales_cnt*price as income_fact,
+       plan_cnt*price as income_plan,
+       ((sales_cnt*price)::real)/((plan_cnt*price)::real) as fact_plan_income
+from shop_dns dns
+join product p on p.id_product =dns.id_product 
+join shops s on s.id_shop =dns.id_shop 
+join plan_product pp on pp.id_shop=dns.id_shop and pp.id_product =dns.id_product
+union 
+select shop_name, product_name, 
+       sales_cnt as sales_fact,
+       plan_cnt as sales_plan, 
+       (sales_cnt::real/plan_cnt::real) as fact_plan_plan,
+       sales_cnt*price as income_fact,
+       plan_cnt*price as income_plan,
+       ((sales_cnt*price)::real)/((plan_cnt*price)::real) as fact_plan_income
+from shop_citylink ctl
+join product p on p.id_product =ctl.id_product 
+join shops s on s.id_shop =ctl.id_shop 
+join plan_product pp on pp.id_shop=ctl.id_shop and pp.id_product =ctl.id_product
+order by 1
