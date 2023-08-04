@@ -1,0 +1,56 @@
+1) Таблица с продуктами:
+    CREATE TABLE IF NOT EXISTS product(
+    id_product SERIAL PRIMARY KEY,
+    product_name CHARACTER VARYING(20),
+    price INT   
+);
+
+2) Таблица с магазинами:
+    CREATE TABLE IF NOT EXISTS shops(
+    id_shop SERIAL PRIMARY KEY,
+    shop_name CHARACTER VARYING(20)   
+);
+
+3)таблица с планом:
+
+    CREATE TABLE IF NOT EXISTS plan_product(
+    id_product INT,
+    FOREIGN KEY (id_product) REFERENCES product (id_product),
+    id_shop INT,
+    FOREIGN KEY (id_shop) REFERENCES shops (id_shops),
+    plan_cnt INT,
+    plan_date DATE
+          
+);
+
+4) таблица с продажами по магазинам:
+
+    CREATE TABLE IF NOT EXISTS shop_mvideo(
+    id_product INT,
+    FOREIGN KEY (id_product) REFERENCES product (id_product),
+    id_shop INT,
+    FOREIGN KEY (id_shop) REFERENCES shops (id_shops),
+    sales_cnt INT,
+    sales_date DATE
+         
+);
+
+ CREATE TABLE IF NOT EXISTS shop_dns(
+    id_product INT,
+    FOREIGN KEY (id_product) REFERENCES product (id_product),
+    id_shop INT,
+    FOREIGN KEY (id_shop) REFERENCES shops (id_shops),
+    sales_cnt INT,
+    sales_date DATE
+         
+);
+
+ CREATE TABLE IF NOT EXISTS shop_citylink(
+    id_product INT,
+    FOREIGN KEY (id_product) REFERENCES product (id_product),
+    id_shop INT,
+    FOREIGN KEY (id_shop) REFERENCES shops (id_shops),
+    sales_cnt INT,
+    sales_date DATE
+         
+);

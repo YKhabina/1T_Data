@@ -1,0 +1,25 @@
+with gs as (
+	select *
+	from shop_mvideo 
+	union
+	select *
+	from shop_dns 
+	union 
+	select *
+	from shop_citylink
+	)
+select
+		s.shop_name as shop_name,
+		p.product_name,
+		sum(sales_cnt) as sales_fact,
+		plan_cnt as sales_plan,
+		(sum(sales_cnt)::real)/(plan_cnt::real) AS sales_fact_plan,
+		sum(sales_cnt) * price AS income_fact,
+		plan_cnt * price AS income_plan,
+	    (sum(sales_cnt)*price::real)/(plan_cnt*price::real) AS sales_fact_income
+	from gs
+join shops s on gs.id_shop = s.id_shop
+join plan_product pl on pl.id_shop = gs.id_shop and pl.id_product=gs.id_product
+join product p on p.id_product = gs.id_product
+GROUP by s.shop_name, p.product_name,p.price,pl.plan_cnt
+order by 1
