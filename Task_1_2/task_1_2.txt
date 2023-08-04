@@ -1,0 +1,28 @@
+1) 
+
+FROM postgres:latest
+ENV POSTGRES_PASSWORD=pass
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_DB=testdb
+COPY init_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+2)
+Создали образ в текущей директории:
+docker build -t test_image:latest . 
+
+Убедилиcь, что образ создался:
+C:\Users\jsb24\.docker\db>docker images
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+test_image   latest    ca409e0be914   14 seconds ago   412MB
+postgres     latest    f0ff6ef79497   6 days ago       412MB
+
+Запускаем контейнер на основе построенного образа
+docker run --rm -d -p 5435:5432 --name test_container test_image:latest
+
+Чтобы зайти в базу через контейнер:
+docker exec -it test_container psql -U postgres 
+
+
+3) 
+Для сохранения изменений в контейнере запускаем контейнер с volume:
+docker run --rm -d -p 5435:5432 --name test_container -v /data:/var/lib/postgresql/data test_image:latest
