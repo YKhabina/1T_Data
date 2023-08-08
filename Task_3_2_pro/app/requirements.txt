@@ -1,1 +1,5 @@
-
+requests
+datetime
+pandas
+psycopg2-binary
+pathlib
