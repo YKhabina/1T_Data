@@ -1,0 +1,32 @@
+version: '1.0'
+services:
+  task_api_pro:
+    container_name: python_cont
+    build: ./
+    command: python task_api_pro.py
+    ports:
+      - 4000:4000
+    volumes:
+      - ./:/app
+    depends_on:
+        db:
+            condition: service_healthy
+    links:
+          - exrate
+
+  exrate:
+    image: postgres:latest
+    container_name: ex_cont
+    ports: 
+      - 5435:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: exrate
+    volumes:
+      - ./files:/docker-entrypoint-initdb.d/files/
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      retries: 5
+    restart: always
