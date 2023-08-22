@@ -116,8 +116,8 @@ FROM
    sales 
 INNER JOIN products ON sales.item_id = products.item_id
 WHERE 
-   item_name = 'джинсы' AND order_time BETWEEN '2023-06-01' AND '2023-06-07'
-GROUP BY product_name;
+   item_name = 'джинсы' AND sale_date BETWEEN '2023-06-01' AND '2023-06-07'
+GROUP BY item_name;
 
 
 Напечатайте план предыдущего запроса. 
@@ -130,6 +130,6 @@ FROM
    sales 
 INNER JOIN products ON sales.item_id = products.item_id
 WHERE 
-   item_name = 'джинсы' AND order_time BETWEEN '2023-06-01' AND '2023-06-07'
-GROUP BY product_name;
+   item_name = 'джинсы' AND sale_date BETWEEN '2023-06-01' AND '2023-06-07'
+GROUP BY item_name;
 
