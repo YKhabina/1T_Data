@@ -8,4 +8,8 @@
 
 Более подробно по плану разработке, инструментам, выводы смотрите в приложенной [презентации](https://github.com/YKhabina/1T_Data/blob/master/Test_project/Project_Khabina.pdf).
 
+[Тетрадь с решением](https://github.com/YKhabina/1T_Data/blob/master/Test_project/Final.ipynb)
+
+
+
 
