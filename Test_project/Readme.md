@@ -6,6 +6,6 @@
 
 Из исходного файла нарезан [файл](https://github.com/YKhabina/1T_Data/blob/master/Test_project/access_4_1_1.log) с гораздо меньшим количеством строк (применялся emEditor).
 
-Более подробно по плану разработке, инструментам, выводы смотрите в приложенной [презентации] (https://github.com/YKhabina/1T_Data/blob/master/Test_project/Project_Khabina.pdf).
+Более подробно по плану разработке, инструментам, выводы смотрите в приложенной [презентации](https://github.com/YKhabina/1T_Data/blob/master/Test_project/Project_Khabina.pdf).
 
 
