@@ -10,6 +10,9 @@
 
 [Тетрадь с решением](https://github.com/YKhabina/1T_Data/blob/master/Test_project/Final.ipynb)
 
+Файл с результатом [тут]
+Вспомогательные файлы [1] и [2]
+
 
 
 
