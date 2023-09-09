@@ -10,8 +10,8 @@
 
 [Тетрадь с решением](https://github.com/YKhabina/1T_Data/blob/master/Test_project/Final.ipynb)
 
-Файл с результатом [тут]
-Вспомогательные файлы [1] и [2]
+Файл с результатом [тут](https://github.com/YKhabina/1T_Data/blob/master/Test_project/Log_datamart.csv)
+Вспомогательные файлы [1](https://github.com/YKhabina/1T_Data/blob/master/Test_project/log_browser.csv) и [2](https://github.com/YKhabina/1T_Data/blob/master/Test_project/log_platform.csv)
 
 
 
